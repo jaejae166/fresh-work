@@ -1,0 +1,13 @@
+{
+  "name": "Fresh Work - 매장 업무 체크",
+  "short_name": "Fresh Work",
+  "description": "시간대별 매장 업무를 실시간 안내하고 완료 체크하는 웹앱",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#f4fbf7",
+  "theme_color": "#0a7b4f",
+  "icons": [
+    { "src": "./icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any maskable" }
+  ]
+}

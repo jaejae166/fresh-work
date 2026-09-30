@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#0A7B4F" />
+  <meta name="description" content="시간대에 따라 지금 해야 할 업무를 안내하고 완료 체크하는 매장 업무 웹앱" />
+  <title>Fresh Work | 매장 업무 체크</title>
+  <link rel="manifest" href="./manifest.json" />
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+<body>
+  <div class="app-shell">
+    <header class="topbar">
+      <div>
+        <p class="brand-kicker">GS THE FRESH</p>
+        <h1>Fresh Work</h1>
+      </div>
+      <button id="notifyBtn" class="icon-button" type="button" aria-label="업무 알림 켜기" title="업무 알림 켜기">
+        <span aria-hidden="true">🔔</span>
+      </button>
+    </header>
+
+    <main>
+      <section id="homeView" class="view active" aria-label="홈">
+        <article class="now-card">
+          <div class="now-topline">
+            <span class="live-pill"><span class="live-dot"></span>실시간 업무 안내</span>
+            <time id="clock" class="clock">--:--</time>
+          </div>
+          <p id="dateLabel" class="date-label">오늘</p>
+          <h2 id="nowHeadline">현재 업무를 불러오는 중이에요.</h2>
+          <p id="nowMessage" class="now-message">잠시만 기다려주세요.</p>
+
+          <div class="progress-wrap" aria-label="오늘의 업무 진행률">
+            <div class="progress-copy">
+              <span>오늘의 업무 진행률</span>
+              <strong id="progressText">0%</strong>
+            </div>
+            <div class="progress-track"><div id="progressBar" class="progress-bar"></div></div>
+            <div class="progress-meta"><span id="progressCount">0 / 0 완료</span><span id="remainingText">남은 업무 0개</span></div>
+          </div>
+        </article>
+
+        <article id="currentTaskCard" class="task-focus-card" aria-live="polite"></article>
+
+        <div class="section-heading">
+          <div>
+            <span class="eyebrow">NEXT</span>
+            <h3>다음 예정 업무</h3>
+          </div>
+        </div>
+        <article id="nextTaskCard" class="next-card"></article>
+
+        <div class="section-heading with-action">
+          <div>
+            <span class="eyebrow">TODAY</span>
+            <h3>오늘 일정</h3>
+          </div>
+          <button id="openAllBtn" class="text-button" type="button">전체 보기</button>
+        </div>
+        <div id="miniTimeline" class="mini-timeline"></div>
+      </section>
+
+      <section id="checklistView" class="view" aria-label="체크리스트">
+        <div class="page-title-row">
+          <div>
+            <span class="eyebrow">CHECKLIST</span>
+            <h2>오늘 업무 체크리스트</h2>
+          </div>
+          <button id="resetBtn" class="ghost-button" type="button">오늘 체크 초기화</button>
+        </div>
+        <div class="filter-row" role="tablist" aria-label="업무 상태 필터">
+          <button class="filter-chip active" data-filter="all" type="button">전체</button>
+          <button class="filter-chip" data-filter="pending" type="button">해야 할 일</button>
+          <button class="filter-chip" data-filter="done" type="button">완료</button>
+        </div>
+        <div id="allTasks" class="all-tasks"></div>
+      </section>
+
+      <section id="timelineView" class="view" aria-label="일정">
+        <div class="page-title-row">
+          <div>
+            <span class="eyebrow">SCHEDULE</span>
+            <h2>시간대별 업무 일정</h2>
+          </div>
+        </div>
+        <p class="helper-text">현재 시각을 기준으로 진행 중인 업무를 자동으로 표시해요.</p>
+        <div id="fullTimeline" class="full-timeline"></div>
+      </section>
+
+      <section id="settingsView" class="view" aria-label="설정">
+        <div class="page-title-row">
+          <div>
+            <span class="eyebrow">MY WORK</span>
+            <h2>내 업무 설정</h2>
+          </div>
+        </div>
+
+        <form id="profileForm" class="settings-card">
+          <label for="employeeName">이름 또는 닉네임</label>
+          <div class="input-row">
+            <input id="employeeName" maxlength="20" placeholder="예: 김매니저" autocomplete="name" />
+            <button class="primary-small" type="submit">저장</button>
+          </div>
+          <p class="settings-note">입력한 이름은 이 기기에만 저장돼요.</p>
+        </form>
+
+        <div class="settings-card">
+          <div class="settings-line">
+            <div>
+              <strong>브라우저 업무 알림</strong>
+              <p>업무 시작 시각에 브라우저 알림을 보여줘요.</p>
+            </div>
+            <button id="settingsNotifyBtn" class="outline-button" type="button">알림 켜기</button>
+          </div>
+        </div>
+
+        <div class="settings-card">
+          <strong>웹앱 사용 방식</strong>
+          <p class="settings-copy">완료 체크는 직원 각자의 휴대폰이나 PC 브라우저에 저장됩니다. 여러 직원의 완료 현황을 한 화면에서 공유하려면 Firebase/Supabase 같은 공동 데이터베이스를 추가하면 됩니다.</p>
+        </div>
+
+        <div class="settings-card accent-card">
+          <strong>GitHub Pages 배포용</strong>
+          <p class="settings-copy">이 프로젝트는 별도 서버 없이 GitHub Pages에 바로 올릴 수 있도록 만들었습니다.</p>
+        </div>
+      </section>
+    </main>
+
+    <nav class="bottom-nav" aria-label="하단 메뉴">
+      <button class="nav-item active" data-view="homeView" type="button"><span>⌂</span><b>홈</b></button>
+      <button class="nav-item" data-view="checklistView" type="button"><span>☑</span><b>체크리스트</b></button>
+      <button class="nav-item" data-view="timelineView" type="button"><span>▦</span><b>일정</b></button>
+      <button class="nav-item" data-view="settingsView" type="button"><span>◉</span><b>내 업무</b></button>
+    </nav>
+  </div>
+
+  <dialog id="taskDialog" class="task-dialog">
+    <form method="dialog" class="dialog-shell">
+      <button class="dialog-close" value="cancel" aria-label="닫기">×</button>
+      <div id="dialogContent"></div>
+    </form>
+  </dialog>
+
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+  <script src="./app.js"></script>
+</body>
+</html>
